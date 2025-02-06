@@ -5,7 +5,7 @@
 :root {
   --foreground: 255, 255, 255; /* white */
   --background-start: 1, 1, 35; /* deep blue (#010123) */
-  --background-end: 1, 1, 60; /* dark blue (#01012e) */
+  --background-end: 1, 1, 75; /* dark blue (#01012e) */
 }
 
 /* @media (prefers-color-scheme: dark) { // for dark color scheme
