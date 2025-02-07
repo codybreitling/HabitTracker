@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import "./globals.css";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
+import NavBar from "./NavBar";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -22,7 +23,12 @@ export default function RootLayout(props: any) {
     <html lang="en">
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <div className="mt-5">
+              <NavBar />
+            </div>
+            <main style={{ flex: 1}}>{props.children}</main>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
