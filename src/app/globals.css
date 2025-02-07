@@ -16,7 +16,13 @@
   }
 } */
 
+html, body {
+  height: 100%;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
   color: rgb(var(--foreground));
   background: linear-gradient(
       to bottom,
@@ -24,6 +30,10 @@ body {
       rgb(var(--background-end))
     )
     rgb(var(--background-start));
+}
+
+main {
+  overflow: hidden;
 }
 
 @layer utilities {
