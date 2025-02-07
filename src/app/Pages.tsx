@@ -13,7 +13,7 @@ export const Pages: Page[] = [
     path: "/habits",
   },
   {
-    name: "AI",
+    name: "AI Tips",
     path: "/ai",
   },
   {

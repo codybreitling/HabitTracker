@@ -17,7 +17,7 @@ export const generalStyles = {
     button: {
       color: generalColors.white,
       textTransform: "capitalize",
-      width: "125px",
+      width: "200px",
     }
   }
 }

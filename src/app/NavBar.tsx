@@ -42,12 +42,13 @@ const NavBar = () => {
                     <ArrowBackIos sx={{ color: generalColors.white }} />
                 </IconButton>
                 }
-                <div ref={containerRef} className="flex justify-evenly overflow-auto scroll-smooth flex-grow scrollbar-hide px-10 max-w-full">
+                <div ref={containerRef} className="flex justify-evenly overflow-auto scroll-smooth flex-grow scrollbar-hide px-5 max-w-full">
                     {Pages.map((page) => (
                         <Button 
                             key={page.name}
                             sx={{ 
-                                ...generalStyles.NavBar.button, 
+                                ...generalStyles.NavBar.button,
+                                minWidth: '100px',
                                 borderBottom: currentPage.name === page.name ? `2px solid ${generalColors.white}` : 'none'
                             }}
                             onClick={() => setCurrentPage(page)}
