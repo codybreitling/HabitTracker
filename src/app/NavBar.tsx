@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   IconButton,
-  Typography,
 } from "@mui/material";
 import { Page, Pages } from "./Pages";
 import { generalColors, generalStyles } from "./generalStyles";
@@ -13,13 +12,13 @@ import { useRef } from "react";
 import {
   ArrowBackIos,
   ArrowForwardIos,
-  BorderBottom,
 } from "@mui/icons-material";
+import Link from "next/link";
 
 const NavBar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
-  const [currentPage, setCurrentPage] = useState<Page>(Pages[0]);
+  const [currentPage, setCurrentPage] = useState<Page | null>(null);
 
   const scrollLeft = () => {
     if (containerRef.current) {
@@ -46,6 +45,15 @@ const NavBar = () => {
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
 
+  useEffect(() => {
+    const currentPage = Pages.find((page) => page.path === window.location.pathname);
+    if (currentPage) {
+      setCurrentPage(currentPage);
+    } else {
+      setCurrentPage(Pages[0]);
+    }
+  }, []);
+
   return (
     <AppBar
       position="static"
@@ -65,20 +73,22 @@ const NavBar = () => {
           className="flex justify-evenly overflow-auto scroll-smooth flex-grow scrollbar-hide px-5 max-w-full"
         >
           {Pages.map((page) => (
-            <Button
-              key={page.name}
-              sx={{
-                ...generalStyles.NavBar.button,
-                minWidth: "100px",
-                borderBottom:
-                  currentPage.name === page.name
-                    ? `2px solid ${generalColors.white}`
-                    : "none",
-              }}
-              onClick={() => setCurrentPage(page)}
-            >
-              {page.name}
-            </Button>
+            <Link key={page.name} href={page.path} passHref>
+              <Button
+                key={page.name}
+                sx={{
+                  ...generalStyles.NavBar.button,
+                  minWidth: "100px",
+                  borderBottom:
+                    currentPage?.name === page.name
+                      ? `2px solid ${generalColors.white}`
+                      : "none",
+                }}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page.name}
+              </Button>
+            </Link>
           ))}
         </div>
         {isOverflowing && (
