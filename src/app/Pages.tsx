@@ -14,7 +14,7 @@ export const Pages: Page[] = [
   },
   {
     name: "AI Tips",
-    path: "/ai",
+    path: "/ai-tips",
   },
   {
     name: "Progress",

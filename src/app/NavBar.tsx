@@ -46,7 +46,7 @@ const NavBar = () => {
   }, []);
 
   useEffect(() => {
-    const currentPage = Pages.find((page) => page.path === window.location.pathname);
+    const currentPage = Pages.find((page: Page) => page.path === window.location.pathname);
     if (currentPage) {
       setCurrentPage(currentPage);
     } else {
@@ -72,7 +72,7 @@ const NavBar = () => {
           ref={containerRef}
           className="flex justify-evenly overflow-auto scroll-smooth flex-grow scrollbar-hide px-5 max-w-full"
         >
-          {Pages.map((page) => (
+          {Pages.map((page: Page) => (
             <Link key={page.name} href={page.path} passHref>
               <Button
                 key={page.name}

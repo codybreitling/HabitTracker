@@ -1,8 +1,7 @@
 import { AppBar } from "@mui/material";
 
-export default function progressPage() {
+export default function ProgressPage() {
   return (
-    <main className="flex min-h-screen flex-row justify-center">
-    </main>
+    <></>
   );
 }

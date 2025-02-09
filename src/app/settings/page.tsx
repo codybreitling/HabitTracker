@@ -1,8 +1,6 @@
-import { AppBar } from "@mui/material";
 
-export default function settingsPage() {
+export default function SettingsPage() {
   return (
-    <main className="flex min-h-screen flex-row justify-center">
-    </main>
+    <></>
   );
 }

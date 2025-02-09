@@ -1,8 +1,7 @@
 import { AppBar } from "@mui/material";
 
-export default function journalPage() {
+export default function JournalPage() {
   return (
-    <main className="flex min-h-screen flex-row justify-center">
-    </main>
+    <></>
   );
 }
