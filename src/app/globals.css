@@ -18,6 +18,7 @@
 
 html, body {
   height: 100%;
+  overflow-y: auto;
 }
 
 body {
@@ -30,10 +31,11 @@ body {
       rgb(var(--background-end))
     )
     rgb(var(--background-start));
+  padding-right: 10px;
 }
 
 main {
-  overflow: hidden;
+  overflow: auto;
 }
 
 @layer utilities {
@@ -41,3 +43,21 @@ main {
     text-wrap: balance;
   }
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 98%);
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(197, 100%, 48%);
+
+}
+
+

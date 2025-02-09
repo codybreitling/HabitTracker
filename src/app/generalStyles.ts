@@ -1,7 +1,7 @@
 
 
 export const generalColors = {
-    primary: "#2c6fbb",
+    primary: "#20456f",
     secondary: "#ffaf5f",
     white: "#F9F9F9",
     black: "#000000",
@@ -18,6 +18,16 @@ export const generalStyles = {
       color: generalColors.white,
       textTransform: "capitalize",
       width: "200px",
+    }
+  },
+  Dashboard: {
+    Box: {
+      backgroundColor: generalColors.primary,
+      color: generalColors.white,
+      height: "350px",
+      width: "550px",
+      boxShadow: 2,
+      borderRadius: 3,
     }
   }
 }
