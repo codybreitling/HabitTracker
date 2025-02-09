@@ -1,5 +1,5 @@
 
-export default function settingsPage() {
+export default function SettingsPage() {
   return (
     <></>
   );

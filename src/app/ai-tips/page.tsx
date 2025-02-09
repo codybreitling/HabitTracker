@@ -1,5 +1,5 @@
 
-export default function habitTipsPage() {
+export default function HabitTipsPage() {
   return (
     <></>
   );

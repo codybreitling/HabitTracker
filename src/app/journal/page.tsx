@@ -1,6 +1,6 @@
 import { AppBar } from "@mui/material";
 
-export default function journalPage() {
+export default function JournalPage() {
   return (
     <></>
   );

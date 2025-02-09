@@ -5,7 +5,7 @@ import { strings } from "../strings";
 import Utils from "../Utils";
 import { useEffect, useState } from "react";
 
-const dashboardPage = () => {
+const DashboardPage = () => {
   const [isMobile, setIsMobile] = useState(false);
   const utils = new Utils();
 
@@ -115,4 +115,4 @@ const dashboardPage = () => {
   );
 };
 
-export default dashboardPage;
+export default DashboardPage;
