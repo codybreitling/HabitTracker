@@ -21,12 +21,20 @@ export const generalStyles = {
     }
   },
   Dashboard: {
+    // Box: {
+    //   backgroundColor: generalColors.primary,
+    //   color: generalColors.white,
+    //   height: "350px",
+    //   width: "550px",
+    //   boxShadow: "0px 4px 6px rgba(0, 0, 0, 1)",
+    //   borderRadius: 3,
+    // }
     Box: {
       backgroundColor: generalColors.primary,
       color: generalColors.white,
       height: "350px",
       width: "550px",
-      boxShadow: 2,
+      boxShadow: "7px 7px 7px rgba(0, 0, 0, 1)",
       borderRadius: 3,
     }
   }
