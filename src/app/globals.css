@@ -51,7 +51,8 @@ main {
 
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(0 0% 98%);
+  /* background: hsl(0 0% 98%); */ /* white */
+  background: hsl(63, 100%, 96%); /* creme */
   border-radius: 100vw;
 }
 

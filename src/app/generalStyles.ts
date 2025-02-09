@@ -4,6 +4,7 @@ export const generalColors = {
     primary: "#20456f",
     secondary: "#ffaf5f",
     white: "#F9F9F9",
+    creme: "#feffec",
     black: "#000000",
     mint: "#45cea2",
     lightMint: "#8de1c6",
@@ -15,7 +16,7 @@ export const generalColors = {
 export const generalStyles = {
   NavBar: {
     button: {
-      color: generalColors.white,
+      color: generalColors.creme,
       textTransform: "capitalize",
       width: "200px",
     }
@@ -23,7 +24,7 @@ export const generalStyles = {
   Dashboard: {
     Box: {
       backgroundColor: generalColors.primary,
-      color: generalColors.white,
+      color: generalColors.creme,
       height: "350px",
       width: "550px",
       boxShadow: "7px 7px 7px rgba(0, 0, 0, 1)",
