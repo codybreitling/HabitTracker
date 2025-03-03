@@ -1,20 +1,25 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## View the app:
+- [https://habit-tracker-sage-pi.vercel.app](https://habit-tracker-sage-pi.vercel.app)
 
-First, run the development server:
+## Run the app locally:
+- Download the repo zip file
+- Unzip the file
+- cd into the file that you unzipped
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open localhost [http://localhost:3000](http://localhost:3000)
+Open localhost via:
+```bash
+start localhost
+OR
+http://localhost:3000
+```
 
 
 ## Learn More
