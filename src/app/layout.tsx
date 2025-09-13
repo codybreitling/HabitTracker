@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import NavBar from "./NavBar";
+import LocalizationWrapper from "./LocalizationWrapper";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -24,10 +25,12 @@ export default function RootLayout(props: any) {
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <div className="mt-5">
-              <NavBar />
-            </div>
-            <main style={{ flex: 1}}>{props.children}</main>
+            <LocalizationWrapper>
+              <div className="mt-5">
+                <NavBar />
+              </div>
+              <main style={{ flex: 1 }}>{props.children}</main>
+            </LocalizationWrapper>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
