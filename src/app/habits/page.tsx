@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import {
   DragDropContext,
@@ -37,6 +37,7 @@ import {
   useHabits,
   useTodaysHabits,
 } from "./habitUtils";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const HabitsPage = () => {
   const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
@@ -288,7 +289,7 @@ const HabitsPage = () => {
                     setNewHabitName("");
                     setEditingHabitId(null);
                   }}
-                  PaperProps={{ sx: { bgcolor: generalColors.black } }}
+                  PaperProps={{ sx: { bgcolor: generalColors.creme } }}
                 >
                   <DialogTitle sx={{ color: "#1976d2" }}>
                     Edit Habit
@@ -296,8 +297,10 @@ const HabitsPage = () => {
                   <DialogContent>
                     {editingScope === "today" ? (
                       <TimePicker
+                        label="Habit Time"
                         value={newHabitTime}
                         onChange={(newValue) => setNewHabitTime(newValue)}
+                        sx={{ marginTop: "10px" }}
                       />
                     ) : (
                       <TextField
@@ -308,20 +311,7 @@ const HabitsPage = () => {
                         fullWidth
                         value={newHabitName}
                         onChange={(e) => setNewHabitName(e.target.value)}
-                        sx={{
-                          "& .MuiInputBase-input": {
-                            color: generalColors.creme,
-                          },
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": { borderColor: "#1976d2" },
-                            "&:hover fieldset": { borderColor: "#1976d2" },
-                            "&.Mui-focused fieldset": {
-                              borderColor: "#1976d2",
-                            },
-                          },
-                          "& label": { color: "#1976d2" },
-                          "& label.Mui-focused": { color: "#1976d2" },
-                        }}
+                        sx={{ marginTop: "10px" }}
                       />
                     )}
                   </DialogContent>
