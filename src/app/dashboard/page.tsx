@@ -23,7 +23,7 @@ const DashboardPage = () => {
   return (
     <Box
       className="flex flex-col items-center justify-center mr-3 ml-3 mt-3 mb-3"
-      sx={{ minHeight: "93vh" }}
+      sx={{ minHeight: "90vh" }}
     >
       <Grid2 container spacing={4} className="flex justify-center items-start">
         {/* Reminders */}
