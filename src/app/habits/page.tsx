@@ -10,7 +10,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { TimePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
 import {
   DragDropContext,
   Droppable,
@@ -41,7 +42,7 @@ const HabitsPage = () => {
   const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
   const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
   const [newHabitName, setNewHabitName] = useState("");
-  const [newHabitTime, setNewHabitTime] = useState("");
+  const [newHabitTime, setNewHabitTime] = useState<Dayjs | null>(null);
   const [editingHabitId, setEditingHabitId] = useState<number | null>(null);
   const [editingScope, setEditingScope] = useState<"all" | "today">("all");
   const [isMobile, setIsMobile] = useState(false);
@@ -62,6 +63,7 @@ const HabitsPage = () => {
     sorted: sortedHabits,
     editTodayHabit,
     deleteTodayHabit,
+    setTodayHabits,
   } = useTodaysHabits();
 
   const addHabit = (name: string) => {
@@ -85,6 +87,16 @@ const HabitsPage = () => {
     setIsEditHabitOpen(false);
     setNewHabitName("");
     setEditingHabitId(null);
+  };
+
+  const changeHabitTime = (habitId: number, newTime: string): TodayHabit => {
+    console.log("Changing habit time", habitId, newTime);
+    const habit = todayHabits.find((h) => h.id === habitId);
+    if (!habit) throw new Error("Habit not found");
+    setTodayHabits((prev) => {
+      return prev.map((h) => (h.id === habitId ? { ...h, time: newTime } : h));
+    });
+    return { ...habit, time: newTime };
   };
 
   // Drag and drop handler
@@ -154,7 +166,7 @@ const HabitsPage = () => {
                                     aria-label="edit-habit"
                                     onClick={() => {
                                       setNewHabitName(habit.name);
-                                      setNewHabitTime("");
+                                      setNewHabitTime(null);
                                       setEditingHabitId(habit.id);
                                       setEditingScope("all");
                                       setIsEditHabitOpen(true);
@@ -283,30 +295,34 @@ const HabitsPage = () => {
                   </DialogTitle>
                   <DialogContent>
                     {editingScope === "today" ? (
+                      <TimePicker
+                        value={newHabitTime}
+                        onChange={(newValue) => setNewHabitTime(newValue)}
+                      />
+                    ) : (
                       <TextField
                         autoFocus
                         margin="dense"
-                        label="Time"
+                        label="Habit Name"
                         type="text"
                         fullWidth
-                        value={newHabitTime}
-                        onChange={(e) => setNewHabitTime(e.target.value)}
+                        value={newHabitName}
+                        onChange={(e) => setNewHabitName(e.target.value)}
                         sx={{
-                          "& .MuiInputBase-input": { color: generalColors.creme },
+                          "& .MuiInputBase-input": {
+                            color: generalColors.creme,
+                          },
                           "& .MuiOutlinedInput-root": {
                             "& fieldset": { borderColor: "#1976d2" },
                             "&:hover fieldset": { borderColor: "#1976d2" },
-                            "&.Mui-focused fieldset": { borderColor: "#1976d2" },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#1976d2",
+                            },
                           },
                           "& label": { color: "#1976d2" },
                           "& label.Mui-focused": { color: "#1976d2" },
                         }}
                       />
-                    ) : (
-                      <TimePicker
-                        label="Select Time"
-                      >
-                      </TimePicker>
                     )}
                   </DialogContent>
                   <DialogActions>
@@ -314,7 +330,7 @@ const HabitsPage = () => {
                       onClick={() => {
                         setIsEditHabitOpen(false);
                         setNewHabitName("");
-                        setNewHabitTime("");
+                        setNewHabitTime(null);
                         setEditingHabitId(null);
                         setEditingScope("all");
                       }}
@@ -325,15 +341,17 @@ const HabitsPage = () => {
                       onClick={() => {
                         if (editingHabitId === null) return;
                         if (editingScope === "today") {
-                          if (!newHabitTime.trim()) return;
-                          editTodayHabit(editingHabitId, { time: newHabitTime });
+                          changeHabitTime(
+                            editingHabitId,
+                            newHabitTime ? newHabitTime.format("h:mm A") : ""
+                          );
                         } else {
                           if (!newHabitName.trim()) return;
                           editHabit(newHabitName);
                         }
                         setIsEditHabitOpen(false);
                         setNewHabitName("");
-                        setNewHabitTime("");
+                        setNewHabitTime(null);
                         setEditingHabitId(null);
                         setEditingScope("all");
                       }}
@@ -366,7 +384,13 @@ const HabitsPage = () => {
               <Box
                 key={id}
                 className="flex items-center justify-center mb-2"
-                sx={{ ...generalStyles.Habits.ListItem }}
+                sx={{
+                  ...generalStyles.Habits.ListItem,
+                  // match behavior of left list so content wraps instead of forcing horizontal scroll
+                  width: "100%",
+                  boxSizing: "border-box",
+                  overflow: "visible",
+                }}
               >
                 <ListItem
                   className="flex items-center justify-between"
@@ -376,7 +400,9 @@ const HabitsPage = () => {
                       aria-label="edit-today-habit"
                       onClick={() => {
                         setNewHabitName(habit.name);
-                        setNewHabitTime(habit.time ?? "");
+                        setNewHabitTime(
+                          habit.time ? dayjs(habit.time, "HH:mm") : null
+                        );
                         // set editing id to the habit id from today's habits and mark scope
                         setEditingHabitId(habit.id);
                         setEditingScope("today");
@@ -386,9 +412,21 @@ const HabitsPage = () => {
                       <MoreVert />
                     </IconButton>
                   }
-                  sx={{ display: "flex", justifyContent: "space-between" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    pr: 6,
+                  }}
                 >
-                  <Typography sx={{ flex: 1, textAlign: "left" }}>
+                  <Typography
+                    sx={{
+                      flex: 1,
+                      minWidth: 0,
+                      textAlign: "left",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
                     {habit.name}
                   </Typography>
                   <Typography sx={{ flex: 1, textAlign: "right" }}>
