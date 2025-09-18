@@ -21,6 +21,7 @@ import { ControlPoint, MoreVert, Delete } from "@mui/icons-material";
 import dayjs, { Dayjs } from "dayjs";
 import { useHabits, initialHabits } from "./useHabits";
 import { generalStyles, generalColors } from "../generalStyles";
+import { strings } from "../strings";
 
 const HabitDialog = ({
   open,
@@ -63,7 +64,7 @@ const HabitDialog = ({
       )}
     </DialogContent>
     <DialogActions>
-      <Button onClick={onClose}>Cancel</Button>
+      <Button onClick={onClose}>{strings.cancel}</Button>
       <Button onClick={onConfirm} variant="contained" color="primary">
         {mode === "add" ? "Add" : "Confirm"}
       </Button>
@@ -123,7 +124,7 @@ const HabitsPage = () => {
                 {...provided.droppableProps}
                 sx={generalStyles.Habits.List}
               >
-                <Typography variant="h6">Habit List</Typography>
+                <Typography variant="h6">{strings.habitList}</Typography>
                 {habits.map((habit, index) => (
                   <Draggable key={habit.id} draggableId={habit.id.toString()} index={index}>
                     {(dragProvided, dragSnapshot) => (
@@ -202,7 +203,7 @@ const HabitsPage = () => {
         sx={{ ...generalStyles.Habits.Box, ml: isMobile ? 0 : 5, mt: isMobile ? 2 : 0 }}
       >
         <List className="flex flex-col items-center justify-center" sx={generalStyles.Habits.List}>
-          <Typography variant="h6">Today's Habits</Typography>
+          <Typography variant="h6">{strings.todaysHabits}</Typography>
           {todaysHabitsSorted.map((habit) => (
             <Box
               key={habit.id}
