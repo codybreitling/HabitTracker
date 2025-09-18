@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
-import scrollbarHide from 'tailwind-scrollbar-hide'
+import scrollbarHide from "tailwind-scrollbar-hide";
+import { generalColors } from "./src/app/generalStyles";
 
 const config: Config = {
   content: [
@@ -9,6 +10,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: generalColors.primary,
+        secondary: generalColors.secondary,
+        creme: generalColors.creme,
+        white: generalColors.white,
+        black: generalColors.black,
+        mint: generalColors.mint,
+        lightMint: generalColors.lightMint,
+        darkMint: generalColors.darkMint,
+        lightBlue: generalColors.lightBlue,
+        darkBlue: generalColors.darkBlue,
+        darkOrange: generalColors.darkOrange,
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -16,8 +30,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    scrollbarHide
-  ],
+  plugins: [scrollbarHide],
 };
 export default config;

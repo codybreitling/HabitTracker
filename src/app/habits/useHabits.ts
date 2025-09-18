@@ -1,7 +1,8 @@
 "use client";
 import { useState, useMemo } from "react";
 import type { DropResult } from "@hello-pangea/dnd";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import Utils from "../Utils";
 
 export type TodayHabit = { id: number; name: string; time: string };
 export type Habit = { id: number; name: string };
@@ -27,7 +28,7 @@ export const initialHabits: Habit[] = [
   { id: 5, name: "Sleep Early" },
   {
     id: 6,
-    name: "Extra Extra Extra Extra Extra Long Text Test Test Test Test Test tEst Test",
+    name: "Extra Extra Extra Extra Extra Long Text Test",
   },
   { id: 7, name: "Test" },
   { id: 8, name: "Test" },
@@ -35,32 +36,40 @@ export const initialHabits: Habit[] = [
   { id: 10, name: "Test" },
 ];
 
-export const parseTimeToMinutes = (t: string) => {
-  const [timePart, modifier] = t.split(" ");
-  let [hours, minutes] = timePart.split(":").map(Number);
-  if (modifier === "PM" && hours !== 12) hours += 12;
-  if (modifier === "AM" && hours === 12) hours = 0;
-  return hours * 60 + minutes;
-};
-
-export const sortHabitsByTime = (items: TodayHabit[]) =>
-  [...items].sort(
-    (a, b) => parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time)
-  );
-
 export const useHabits = (initial: Habit[] = []) => {
   const [habits, setHabits] = useState<Habit[]>(initial);
+  const [todayHabits, setTodayHabits] = useState<TodayHabit[]>(mockHabitsToday);
+
+  const [isAddHabitOpen, setIsAddHabitOpen] = useState(false);
+  const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
+  const [newHabitName, setNewHabitName] = useState("");
+  const [newHabitTime, setNewHabitTime] = useState<Dayjs | null>(null);
+  const [editingHabitId, setEditingHabitId] = useState<number | null>(null);
+  const [todayOrAll, setTodayOrAll] = useState<"all" | "today">("all");
+
+  const utils = new Utils();
 
   const addHabit = (name: string) => {
     setHabits((prev) => [...prev, { id: prev.length + 1, name }]);
+    setIsAddHabitOpen(false);
+    setNewHabitName("");
   };
 
-  const deleteHabit = (id: number) => {
-    setHabits((prev) => prev.filter((h) => h.id !== id));
+  const deleteHabit = (id?: number | null) => {
+    const targetId = id ?? editingHabitId;
+    if (targetId === null || targetId === undefined) return;
+    setHabits((prev) => prev.filter((h) => h.id !== targetId));
+    setIsEditHabitOpen(false);
+    setNewHabitName("");
+    setEditingHabitId(null);
   };
 
   const editHabit = (id: number, name: string) => {
+    if (editingHabitId === null) return;
     setHabits((prev) => prev.map((h) => (h.id === id ? { ...h, name } : h)));
+    setIsEditHabitOpen(false);
+    setNewHabitName("");
+    setEditingHabitId(null);
   };
 
   const reorderHabits = (result: DropResult) => {
@@ -74,36 +83,14 @@ export const useHabits = (initial: Habit[] = []) => {
     });
   };
 
-  return {
-    habits,
-    addHabit,
-    deleteHabit,
-    editHabit,
-    reorderHabits,
-    setHabits,
-  } as const;
-};
-
-export const useTodaysHabits = () => {
-  const [todayHabits, setTodayHabits] = useState<TodayHabit[]>(mockHabitsToday);
-
-  const parseTimeToMinutes = (t: string) => {
-    const [timePart, modifier] = t.split(" ");
-    let [hours, minutes] = timePart.split(":").map(Number);
-    if (modifier === "PM" && hours !== 12) hours += 12;
-    if (modifier === "AM" && hours === 12) hours = 0;
-    return hours * 60 + minutes;
-  };
-
-  const sorted = useMemo(() => {
+  const todaysHabitsSorted = useMemo(() => {
     return [...todayHabits].sort(
-      (a, b) => parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time)
+      (a, b) => utils.parseTimeToMinutes(a.time) - utils.parseTimeToMinutes(b.time)
     );
   }, [todayHabits]);
 
   const changeHabitTime = (habitId: number, newTime: string): TodayHabit => {
-    console.log("Changing habit time", habitId, newTime);
-    const habit = mockHabitsToday.find((h) => h.id === habitId);
+    const habit = todayHabits.find((h) => h.id === habitId);
     if (!habit) throw new Error("Habit not found");
     setTodayHabits((prev) => {
       return prev.map((h) => (h.id === habitId ? { ...h, time: newTime } : h));
@@ -111,21 +98,26 @@ export const useTodaysHabits = () => {
     return { ...habit, time: newTime };
   };
 
-  const addTodayHabit = (habit: TodayHabit) =>
-    setTodayHabits((prev) => [...prev, habit]);
-  const deleteTodayHabit = (id: number) =>
-    setTodayHabits((prev) => prev.filter((h) => h.id !== id));
-  const editTodayHabit = (id: number, updates: Partial<TodayHabit>) =>
-    setTodayHabits((prev) =>
-      prev.map((h) => (h.id === id ? { ...h, ...updates } : h))
-    );
-
   return {
-    todayHabits,
-    sorted,
-    addTodayHabit,
-    deleteTodayHabit,
-    editTodayHabit,
-    setTodayHabits,
+    habits,
+    addHabit,
+    deleteHabit,
+    editHabit,
+    reorderHabits,
+    setHabits,
+    isAddHabitOpen,
+    setIsAddHabitOpen,
+    isEditHabitOpen,
+    setIsEditHabitOpen,
+    newHabitName,
+    setNewHabitName,
+    newHabitTime,
+    setNewHabitTime,
+    editingHabitId,
+    setEditingHabitId,
+    todayOrAll,
+    setTodayOrAll,
+    todaysHabitsSorted,
+    changeHabitTime,
   } as const;
 };

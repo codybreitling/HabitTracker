@@ -6,4 +6,7 @@ export const strings = {
   progress: "Progress",
   chat: "Chat",
   calendar: "Calendar",
+  todaysHabits: "Today's Habits",
+  habitList: "Habit List",
+  cancel: "Cancel",
 }
