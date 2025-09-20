@@ -14,13 +14,12 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  userName    String
-  password    String
-  email       String
-  phoneNumber String?
-  created_at  DateTime @default(now())
-  active      Boolean  @default(true)
-
-  @@map("users")
+  id           Int     @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String  @unique
+  passwordHash String
+  createdAt    Int
+  active       Boolean @default(true)
+  deletedAt    Int?
 }
